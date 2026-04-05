@@ -1,5 +1,5 @@
 
-  # Design Collage Maker
+  # AI_Based_Emotion_Detection_and_Song_Recommendation
 
   This is a code bundle for Design Collage Maker. The original project is available at https://www.figma.com/design/CCZyMgTFMGPX8m0XDuc5Hw/Design-Collage-Maker.
 
