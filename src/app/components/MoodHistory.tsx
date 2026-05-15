@@ -21,7 +21,7 @@ export function MoodHistory({ onSelectEntry, currentEntryId, isOpen, onClose }: 
 
   useEffect(() => {
     // Load history from localStorage
-    const stored = localStorage.getItem('moodtune_history');
+    const stored = localStorage.getItem('tunelytics_history');
     if (stored) {
       try {
         const parsed = JSON.parse(stored);
@@ -35,7 +35,7 @@ export function MoodHistory({ onSelectEntry, currentEntryId, isOpen, onClose }: 
   // Listen for storage changes
   useEffect(() => {
     const handleStorageChange = () => {
-      const stored = localStorage.getItem('moodtune_history');
+      const stored = localStorage.getItem('tunelytics_history');
       if (stored) {
         try {
           const parsed = JSON.parse(stored);
@@ -48,11 +48,11 @@ export function MoodHistory({ onSelectEntry, currentEntryId, isOpen, onClose }: 
 
     window.addEventListener('storage', handleStorageChange);
     // Also listen for custom event for same-tab updates
-    window.addEventListener('moodtune_history_updated', handleStorageChange);
+    window.addEventListener('tunelytics_history_updated', handleStorageChange);
 
     return () => {
       window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('moodtune_history_updated', handleStorageChange);
+      window.removeEventListener('tunelytics_history_updated', handleStorageChange);
     };
   }, []);
 

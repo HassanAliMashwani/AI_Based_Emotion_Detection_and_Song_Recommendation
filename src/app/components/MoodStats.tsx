@@ -22,7 +22,7 @@ export function MoodStats() {
 
   useEffect(() => {
     const calculateStats = () => {
-      const historyJson = localStorage.getItem('moodtune_history');
+      const historyJson = localStorage.getItem('tunelytics_history');
       if (!historyJson) return;
 
       try {
@@ -71,10 +71,10 @@ export function MoodStats() {
 
     // Listen for history updates
     const handleUpdate = () => calculateStats();
-    window.addEventListener('moodtune_history_updated', handleUpdate);
+    window.addEventListener('tunelytics_history_updated', handleUpdate);
 
     return () => {
-      window.removeEventListener('moodtune_history_updated', handleUpdate);
+      window.removeEventListener('tunelytics_history_updated', handleUpdate);
     };
   }, []);
 

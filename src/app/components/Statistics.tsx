@@ -27,7 +27,7 @@ export function Statistics({ onClose }: StatisticsProps) {
 
   useEffect(() => {
     // Load history from localStorage and calculate stats
-    const stored = localStorage.getItem('moodtune_history');
+    const stored = localStorage.getItem('tunelytics_history');
     if (stored) {
       try {
         const history = JSON.parse(stored);

@@ -62,7 +62,7 @@ export function AuthPage({ onAuthSuccess, initialMode = 'login' }: AuthPageProps
             <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
               <div className="w-3 h-3 bg-accent rounded-sm" />
             </div>
-            <span className="font-bold text-xl tracking-tight text-primary">MoodTune</span>
+            <span className="font-bold text-xl tracking-tight text-primary">Tunelytics</span>
           </div>
           <h1 className="text-3xl font-bold text-primary tracking-tight">
             {isLogin ? 'Welcome back' : 'Create your account'}
@@ -77,7 +77,7 @@ export function AuthPage({ onAuthSuccess, initialMode = 'login' }: AuthPageProps
           {isLogin && (
             <div className="mb-6 p-3 bg-secondary rounded-xl border border-border">
               <p className="text-xs text-muted-foreground text-center">
-                Demo access: <span className="font-medium text-primary">demo@moodtune.com</span> / demo123
+                Demo access: <span className="font-medium text-primary">demo@tunelytics.com</span> / demo123
               </p>
             </div>
           )}

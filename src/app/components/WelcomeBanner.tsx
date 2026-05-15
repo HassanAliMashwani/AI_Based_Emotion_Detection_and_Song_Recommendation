@@ -22,7 +22,7 @@ export function WelcomeBanner({ user, onDismiss }: WelcomeBannerProps) {
         </div>
         <div className="flex-1 space-y-1">
           <h3 className="text-lg font-bold text-primary tracking-tight">
-            Welcome to MoodTune, {user.name.split(' ')[0]}!
+            Welcome to Tunelytics, {user.name.split(' ')[0]}!
           </h3>
           <p className="text-sm text-muted-foreground leading-relaxed max-w-2xl">
             We're excited to have you here. Start your journey by journaling your thoughts below, 

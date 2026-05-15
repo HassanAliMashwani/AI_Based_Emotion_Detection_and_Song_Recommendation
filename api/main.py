@@ -24,7 +24,7 @@ from pydantic import BaseModel
 from ml.inference import predict as ml_predict
 
 app = FastAPI(
-    title="MoodTune Emotion API",
+    title="Tunelytics Emotion API",
     description="Detects emotion from text. Supports English + Hinglish/Roman Urdu.",
     version="1.0.0",
 )

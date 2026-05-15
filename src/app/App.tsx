@@ -40,7 +40,7 @@ export interface HistoryEntry {
 export default function App() {
   const [user, setUser] = useState<User | null>({
     id: '1',
-    email: 'guest@moodtune.com',
+    email: 'guest@tunelytics.com',
     name: 'Guest User',
     avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=Guest&backgroundColor=b6e3f4',
     joinedDate: Date.now(),
@@ -113,7 +113,7 @@ export default function App() {
       };
 
       // Save to localStorage
-      const existingHistory = localStorage.getItem('moodtune_history');
+      const existingHistory = localStorage.getItem('tunelytics_history');
       const history: HistoryEntry[] = existingHistory ? JSON.parse(existingHistory) : [];
       history.unshift(entry);
 
@@ -122,8 +122,8 @@ export default function App() {
         history.splice(20);
       }
 
-      localStorage.setItem('moodtune_history', JSON.stringify(history));
-      window.dispatchEvent(new Event('moodtune_history_updated'));
+      localStorage.setItem('tunelytics_history', JSON.stringify(history));
+      window.dispatchEvent(new Event('tunelytics_history_updated'));
 
       setCurrentResult(result);
       setCurrentTracks(tracks);
@@ -157,7 +157,7 @@ export default function App() {
 
   const handleSelectHistoryEntry = (entry: HistoryEntry) => {
     // Load the selected entry from localStorage to get full data
-    const storedHistory = localStorage.getItem('moodtune_history');
+    const storedHistory = localStorage.getItem('tunelytics_history');
     if (storedHistory) {
       const history: HistoryEntry[] = JSON.parse(storedHistory);
       const fullEntry = history.find((e) => e.id === entry.id);
@@ -269,7 +269,7 @@ export default function App() {
                   <AnimatedLogo size="md" showText={false} />
                   <div>
                     <h1 className="text-2xl font-bold text-primary tracking-tight">
-                      MoodTune
+                      Tunelytics
                     </h1>
                     <p className="text-xs font-medium text-muted-foreground uppercase tracking-widest mt-0.5">
                       Dashboard

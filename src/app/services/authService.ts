@@ -10,11 +10,11 @@ export interface User {
 
 // Mock user database
 const mockUsers: Record<string, { password: string; user: User }> = {
-  'demo@moodtune.com': {
+  'demo@tunelytics.com': {
     password: 'demo123',
     user: {
       id: '1',
-      email: 'demo@moodtune.com',
+      email: 'demo@tunelytics.com',
       name: 'Demo',
       avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=Demo&backgroundColor=b6e3f4',
       joinedDate: Date.now() - 30 * 24 * 60 * 60 * 1000, // 30 days ago
@@ -33,8 +33,8 @@ export async function loginUser(email: string, password: string): Promise<User> 
   }
 
   // Store session
-  localStorage.setItem('moodtune_user', JSON.stringify(userRecord.user));
-  localStorage.setItem('moodtune_session', 'active');
+  localStorage.setItem('tunelytics_user', JSON.stringify(userRecord.user));
+  localStorage.setItem('tunelytics_session', 'active');
 
   return userRecord.user;
 }
@@ -77,15 +77,15 @@ export async function registerUser(
   };
 
   // Store session
-  localStorage.setItem('moodtune_user', JSON.stringify(newUser));
-  localStorage.setItem('moodtune_session', 'active');
+  localStorage.setItem('tunelytics_user', JSON.stringify(newUser));
+  localStorage.setItem('tunelytics_session', 'active');
 
   return newUser;
 }
 
 export function getCurrentUser(): User | null {
-  const userJson = localStorage.getItem('moodtune_user');
-  const session = localStorage.getItem('moodtune_session');
+  const userJson = localStorage.getItem('tunelytics_user');
+  const session = localStorage.getItem('tunelytics_session');
 
   if (userJson && session === 'active') {
     try {
@@ -99,6 +99,5 @@ export function getCurrentUser(): User | null {
 }
 
 export function logoutUser(): void {
-  localStorage.removeItem('moodtune_session');
-  // Keep user data for quick re-login
+  localStorage.removeItem('tunelytics_session');
 }

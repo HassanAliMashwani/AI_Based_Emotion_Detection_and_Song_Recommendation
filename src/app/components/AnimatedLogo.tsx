@@ -42,7 +42,7 @@ export function AnimatedLogo({ size = 'md', showText = true, showBars = true }: 
       {/* Text */}
       {showText && (
         <span className={`${textSizes[size]} font-black text-[#121212] tracking-tight`}>
-          MoodTune
+          Tunelytics
         </span>
       )}
     </div>

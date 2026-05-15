@@ -8,7 +8,7 @@ interface ProfileSettingsProps {
 export function ProfileSettings({ onClose }: ProfileSettingsProps) {
   const [formData, setFormData] = useState({
     name: 'Demo User',
-    email: 'demo@moodtune.ai',
+    email: 'demo@tunelytics.com',
     bio: 'Music lover and mood enthusiast',
     notifications: true,
     darkMode: false,
@@ -18,7 +18,7 @@ export function ProfileSettings({ onClose }: ProfileSettingsProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Save settings to localStorage
-    localStorage.setItem('moodtune_profile', JSON.stringify(formData));
+    localStorage.setItem('tunelytics_profile', JSON.stringify(formData));
     alert('Settings saved successfully!');
     onClose();
   };
