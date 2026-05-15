@@ -52,15 +52,7 @@ export function MoodCard({ emotion, confidence, description, subMood, fallbackUs
 
   return (
     <div className="w-full max-w-3xl mx-auto animate-slide-up-fade space-y-4">
-      {/* Fallback warning banner */}
-      {fallbackUsed && (
-        <div className="flex items-center gap-2 px-4 py-3 bg-amber-50 border border-amber-200 rounded-xl text-amber-700 text-sm animate-fade-in shadow-sm">
-          <svg className="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01M12 3a9 9 0 110 18A9 9 0 0112 3z" />
-          </svg>
-          <span className="font-medium">Using keyword fallback — start the API server for higher accuracy</span>
-        </div>
-      )}
+
 
       {/* Low confidence warning */}
       {isLowConfidence && (
