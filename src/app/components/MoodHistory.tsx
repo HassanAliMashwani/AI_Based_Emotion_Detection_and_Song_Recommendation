@@ -73,88 +73,83 @@ export function MoodHistory({ onSelectEntry, currentEntryId, isOpen, onClose }: 
       {/* Overlay */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 animate-fade-in"
+          className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 animate-fade-in"
           onClick={onClose}
         />
       )}
 
       {/* Sidebar */}
       <div
-        className={`fixed left-0 top-0 h-full w-80 bg-sidebar/95 backdrop-blur-xl border-r border-sidebar-border z-50 overflow-y-auto p-6 space-y-4 transition-transform duration-300 ease-out ${
+        className={`fixed left-0 top-0 h-full w-80 bg-background z-50 border-r border-border/60 transition-transform duration-500 ease-in-out flex flex-col ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        {/* Header with close button */}
-        <div className="sticky top-0 bg-sidebar/95 backdrop-blur-xl -mx-6 px-6 py-4 mb-2 border-b border-sidebar-border/50">
-          <div className="flex items-center justify-between">
-            <h3 className="text-sidebar-foreground flex items-center gap-2">
-              <svg className="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              Mood History
+        {/* Header */}
+        <div className="px-6 py-8 flex items-center justify-between">
+          <div>
+            <h3 className="text-xl font-bold text-primary tracking-tight">
+              History
             </h3>
-            <button
-              onClick={onClose}
-              className="p-2 hover:bg-sidebar-accent rounded-lg transition-colors"
-              aria-label="Close sidebar"
-            >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
+            <p className="text-xs text-muted-foreground mt-1">Your emotional journey</p>
           </div>
+          <button
+            onClick={onClose}
+            className="p-2 hover:bg-secondary rounded-xl transition-colors text-muted-foreground hover:text-primary"
+            aria-label="Close sidebar"
+          >
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
         </div>
 
         {/* Content */}
-        <div className="space-y-2">
+        <div className="flex-1 overflow-y-auto px-4 pb-8 space-y-2">
           {history.length === 0 ? (
-          <div className="text-center py-12 space-y-3">
-            <div className="text-5xl opacity-30">📝</div>
-            <p className="text-sm text-muted-foreground">No entries yet</p>
-            <p className="text-xs text-muted-foreground/70">Start journaling to track your moods</p>
-          </div>
-        ) : (
-          history.map((entry, index) => (
-            <button
-              key={entry.id}
-              onClick={() => onSelectEntry(entry)}
-              className={`w-full text-left p-4 rounded-xl transition-all duration-300 group animate-slide-in-left ${
-                currentEntryId === entry.id
-                  ? 'bg-gradient-to-r from-sidebar-accent to-accent/10 ring-2 ring-accent/30 shadow-lg scale-[1.02]'
-                  : 'hover:bg-sidebar-accent/70 hover:scale-[1.01]'
-              }`}
-              style={{ animationDelay: `${index * 50}ms` }}
-            >
-              <div className="flex items-center gap-3">
-                <span
-                  className={`text-3xl transition-transform duration-300 ${
-                    currentEntryId === entry.id ? 'scale-110' : 'group-hover:scale-110'
-                  }`}
-                >
-                  {moodEmojis[entry.emotion] || '😐'}
-                </span>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium truncate text-sidebar-foreground group-hover:text-accent transition-colors">
-                    {entry.preview}
-                  </p>
-                  <p className="text-xs text-muted-foreground flex items-center gap-1.5 mt-1">
-                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    {formatDate(entry.timestamp)}
-                  </p>
-                </div>
-
-                {/* Selection indicator */}
-                {currentEntryId === entry.id && (
-                  <div className="flex-shrink-0">
-                    <div className="w-2 h-2 bg-accent rounded-full animate-pulse-glow" />
-                  </div>
-                )}
+            <div className="text-center py-20 space-y-4">
+              <div className="w-12 h-12 bg-secondary rounded-full flex items-center justify-center mx-auto text-2xl">📝</div>
+              <div>
+                <p className="text-sm font-medium text-primary">No entries yet</p>
+                <p className="text-xs text-muted-foreground mt-1">Start journaling to see history</p>
               </div>
-            </button>
-          ))
-        )}
+            </div>
+          ) : (
+            history.map((entry, index) => (
+              <button
+                key={entry.id}
+                onClick={() => onSelectEntry(entry)}
+                className={`w-full text-left p-4 rounded-2xl transition-all duration-200 group animate-slide-in-left ${
+                  currentEntryId === entry.id
+                    ? 'bg-white border border-border/50 shadow-sm ring-1 ring-accent/10'
+                    : 'hover:bg-secondary/50 border border-transparent'
+                }`}
+                style={{ animationDelay: `${index * 50}ms` }}
+              >
+                <div className="flex items-center gap-4">
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-2xl transition-colors ${
+                    currentEntryId === entry.id ? 'bg-secondary' : 'bg-secondary/40'
+                  }`}>
+                    {moodEmojis[entry.emotion] || '😐'}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between mb-1">
+                      <p className={`text-sm font-semibold truncate ${
+                        currentEntryId === entry.id ? 'text-primary' : 'text-primary/80'
+                      }`}>
+                        {entry.emotion}
+                      </p>
+                      <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider">
+                        {formatDate(entry.timestamp)}
+                      </span>
+                    </div>
+                    <p className="text-xs text-muted-foreground truncate leading-relaxed">
+                      {entry.preview}
+                    </p>
+                  </div>
+                </div>
+              </button>
+            ))
+          )}
         </div>
       </div>
     </>

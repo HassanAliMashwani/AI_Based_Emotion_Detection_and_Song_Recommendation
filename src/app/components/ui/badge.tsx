@@ -1,46 +1,39 @@
-import * as React from "react";
-import { Slot } from "@radix-ui/react-slot";
-import { cva, type VariantProps } from "class-variance-authority";
+import { HTMLAttributes, ReactNode } from 'react';
 
-import { cn } from "./utils";
-
-const badgeVariants = cva(
-  "inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden",
-  {
-    variants: {
-      variant: {
-        default:
-          "border-transparent bg-primary text-primary-foreground [a&]:hover:bg-primary/90",
-        secondary:
-          "border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90",
-        destructive:
-          "border-transparent bg-destructive text-white [a&]:hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
-        outline:
-          "text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-    },
-  },
-);
-
-function Badge({
-  className,
-  variant,
-  asChild = false,
-  ...props
-}: React.ComponentProps<"span"> &
-  VariantProps<typeof badgeVariants> & { asChild?: boolean }) {
-  const Comp = asChild ? Slot : "span";
-
-  return (
-    <Comp
-      data-slot="badge"
-      className={cn(badgeVariants({ variant }), className)}
-      {...props}
-    />
-  );
+export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
+  variant?: 'default' | 'success' | 'warning' | 'error' | 'outline';
+  size?: 'sm' | 'md';
+  children: ReactNode;
+  className?: string;
 }
 
-export { Badge, badgeVariants };
+export function Badge({ 
+  variant = 'default', 
+  size = 'sm',
+  children, 
+  className = '', 
+  ...props 
+}: BadgeProps) {
+  const baseStyles = 'inline-flex items-center justify-center font-medium rounded-full';
+  
+  const variants = {
+    default: 'bg-secondary text-secondary-foreground border border-border/50',
+    success: 'bg-[#59CF2A]/10 text-[#59CF2A] border border-[#59CF2A]/20',
+    warning: 'bg-amber-100 text-amber-700 border border-amber-200',
+    error: 'bg-red-100 text-red-700 border border-red-200',
+    outline: 'bg-transparent text-muted-foreground border border-border'
+  };
+
+  const sizes = {
+    sm: 'px-2.5 py-0.5 text-xs',
+    md: 'px-3 py-1 text-sm'
+  };
+
+  const classes = `${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`;
+
+  return (
+    <span className={classes} {...props}>
+      {children}
+    </span>
+  );
+}

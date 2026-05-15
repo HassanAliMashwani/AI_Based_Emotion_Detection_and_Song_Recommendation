@@ -15,8 +15,8 @@ const mockUsers: Record<string, { password: string; user: User }> = {
     user: {
       id: '1',
       email: 'demo@moodtune.com',
-      name: 'Alex Morgan',
-      avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400&h=400&fit=crop',
+      name: 'Demo',
+      avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=Demo&backgroundColor=b6e3f4',
       joinedDate: Date.now() - 30 * 24 * 60 * 60 * 1000, // 30 days ago
     },
   },
@@ -53,13 +53,13 @@ export async function registerUser(
     throw new Error('Email already exists');
   }
 
-  // Generate random avatar
+  // Generate random character avatar
   const avatars = [
-    'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400&h=400&fit=crop',
-    'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop',
-    'https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=400&h=400&fit=crop',
-    'https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=400&h=400&fit=crop',
-    'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop',
+    'https://api.dicebear.com/7.x/bottts/svg?seed=Felix&backgroundColor=b6e3f4',
+    'https://api.dicebear.com/7.x/bottts/svg?seed=Aneka&backgroundColor=c0aede',
+    'https://api.dicebear.com/7.x/bottts/svg?seed=Jasper&backgroundColor=ffdfbf',
+    'https://api.dicebear.com/7.x/bottts/svg?seed=Oliver&backgroundColor=d1d4f9',
+    'https://api.dicebear.com/7.x/bottts/svg?seed=Peanut&backgroundColor=b6e3f4',
   ];
 
   const newUser: User = {

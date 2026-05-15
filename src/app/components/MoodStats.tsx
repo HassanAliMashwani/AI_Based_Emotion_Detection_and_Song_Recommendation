@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Card } from './ui/Card';
 
 interface MoodStats {
   totalEntries: number;
@@ -79,10 +80,10 @@ export function MoodStats() {
 
   const mostCommonMood = () => {
     const moods = [
-      { name: 'Happy', count: stats.happyCount, emoji: '😊', color: 'from-yellow-500 to-amber-500' },
-      { name: 'Sad', count: stats.sadCount, emoji: '😢', color: 'from-indigo-500 to-blue-500' },
-      { name: 'Angry', count: stats.angryCount, emoji: '😠', color: 'from-red-500 to-rose-500' },
-      { name: 'Neutral', count: stats.neutralCount, emoji: '😐', color: 'from-gray-500 to-slate-500' },
+      { name: 'Happy', count: stats.happyCount, emoji: '😊', color: 'text-yellow-600' },
+      { name: 'Sad', count: stats.sadCount, emoji: '😢', color: 'text-blue-600' },
+      { name: 'Angry', count: stats.angryCount, emoji: '😠', color: 'text-red-600' },
+      { name: 'Neutral', count: stats.neutralCount, emoji: '😐', color: 'text-gray-600' },
     ];
 
     return moods.sort((a, b) => b.count - a.count)[0];
@@ -95,40 +96,44 @@ export function MoodStats() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 animate-slide-up-fade">
       {/* Total Entries */}
-      <div className="relative group bg-gradient-to-br from-secondary to-muted rounded-2xl p-6 border border-border hover:border-accent/30 transition-all duration-300 hover:shadow-lg overflow-hidden">
-        <div className="absolute top-0 right-0 text-6xl opacity-5 group-hover:scale-110 transition-transform">📊</div>
-        <div className="relative space-y-2">
-          <p className="text-sm text-muted-foreground">Total Entries</p>
-          <p className="text-3xl font-bold text-primary">{stats.totalEntries}</p>
-          <p className="text-xs text-muted-foreground">Journal entries recorded</p>
+      <Card padding="md" className="relative group overflow-hidden border-border/60 hover:border-accent/40 hover:shadow-md transition-all">
+        <div className="absolute top-4 right-4 text-2xl opacity-10 group-hover:opacity-20 group-hover:scale-110 transition-all">📊</div>
+        <div className="space-y-1">
+          <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Total entries</p>
+          <div className="flex items-baseline gap-2">
+            <p className="text-3xl font-black text-primary">{stats.totalEntries}</p>
+            <span className="text-[10px] text-accent font-bold">+12%</span>
+          </div>
+          <p className="text-[10px] text-muted-foreground">Recorded this month</p>
         </div>
-      </div>
+      </Card>
 
       {/* Current Streak */}
-      <div className="relative group bg-gradient-to-br from-secondary to-muted rounded-2xl p-6 border border-border hover:border-accent/30 transition-all duration-300 hover:shadow-lg overflow-hidden">
-        <div className="absolute top-0 right-0 text-6xl opacity-5 group-hover:scale-110 transition-transform">🔥</div>
-        <div className="relative space-y-2">
-          <p className="text-sm text-muted-foreground">Active Days</p>
-          <p className="text-3xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
-            {stats.currentStreak}
-          </p>
-          <p className="text-xs text-muted-foreground">Keep the streak going!</p>
+      <Card padding="md" className="relative group overflow-hidden border-border/60 hover:border-accent/40 hover:shadow-md transition-all">
+        <div className="absolute top-4 right-4 text-2xl opacity-10 group-hover:opacity-20 group-hover:scale-110 transition-all">🔥</div>
+        <div className="space-y-1">
+          <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Active days</p>
+          <div className="flex items-baseline gap-2">
+            <p className="text-3xl font-black text-primary">{stats.currentStreak}</p>
+            <span className="text-[10px] text-accent font-bold">New high</span>
+          </div>
+          <p className="text-[10px] text-muted-foreground">Day streak</p>
         </div>
-      </div>
+      </Card>
 
       {/* Most Common Mood */}
-      <div className="relative group bg-gradient-to-br from-secondary to-muted rounded-2xl p-6 border border-border hover:border-accent/30 transition-all duration-300 hover:shadow-lg overflow-hidden">
-        <div className="absolute top-0 right-0 text-6xl opacity-5 group-hover:scale-110 transition-transform">
+      <Card padding="md" className="relative group overflow-hidden border-border/60 hover:border-accent/40 hover:shadow-md transition-all">
+        <div className="absolute top-4 right-4 text-2xl opacity-10 group-hover:opacity-20 group-hover:scale-110 transition-all">
           {topMood.emoji}
         </div>
-        <div className="relative space-y-2">
-          <p className="text-sm text-muted-foreground">Top Mood</p>
-          <p className={`text-3xl font-bold bg-gradient-to-r ${topMood.color} bg-clip-text text-transparent`}>
-            {topMood.name}
-          </p>
-          <p className="text-xs text-muted-foreground">{topMood.count} times recorded</p>
+        <div className="space-y-1">
+          <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Top mood</p>
+          <div className="flex items-baseline gap-2">
+            <p className={`text-3xl font-black ${topMood.color}`}>{topMood.name}</p>
+          </div>
+          <p className="text-[10px] text-muted-foreground">{topMood.count} records total</p>
         </div>
-      </div>
+      </Card>
     </div>
   );
 }

@@ -1,69 +1,68 @@
-import { MoodAvatar } from './MoodAvatar';
+import { AnimatedLogo } from './AnimatedLogo';
+import { Card } from './ui/Card';
 import { MusicWaveVisualization } from './MusicWaveVisualization';
 
 export function SkeletonLoader() {
   return (
-    <div className="w-full max-w-3xl mx-auto space-y-8 animate-fade-in">
-      {/* Analyzing Avatar with scanning effect */}
-      <div className="flex justify-center mb-8">
+    <div className="w-full max-w-3xl mx-auto space-y-10 animate-fade-in">
+      {/* Analyzing Logo with INTENSE previous purple/pink scanning theme */}
+      <div className="flex justify-center mb-12 relative">
+        {/* Full-page ambient glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-orange-400/10 rounded-full blur-[120px] -z-10 animate-pulse" />
+        
         <div className="relative">
-          <MoodAvatar mood="Neutral" />
-          {/* Concentric scanning rings */}
-          <div className="absolute inset-0 border-4 border-accent/30 rounded-full animate-ping" />
-          <div className="absolute inset-4 border-4 border-purple-600/30 rounded-full animate-ping" style={{ animationDelay: '0.3s' }} />
-          <div className="absolute inset-8 border-4 border-pink-600/20 rounded-full animate-ping" style={{ animationDelay: '0.6s' }} />
+          <AnimatedLogo size="xl" showText={false} showBars={false} />
+          {/* Intense Previous Purple/Pink concentric rings */}
+          <div className="absolute -inset-16 border-2 border-purple-500/20 rounded-full animate-ping" style={{ animationDuration: '3s' }} />
+          <div className="absolute -inset-10 border-2 border-pink-500/30 rounded-full animate-ping" style={{ animationDuration: '2.5s', animationDelay: '0.5s' }} />
+          <div className="absolute -inset-4 border-2 border-orange-400/40 rounded-full animate-ping" style={{ animationDuration: '2s', animationDelay: '1s' }} />
+          
+          {/* Glowing core */}
+          <div className="absolute inset-0 bg-purple-500/20 rounded-full blur-xl animate-pulse" />
         </div>
       </div>
 
-      {/* Mood Card Skeleton */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-secondary to-muted rounded-2xl p-10 space-y-6 shadow-soft">
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer" />
-
-        <div className="relative space-y-6">
-          <div className="h-20 w-20 bg-gradient-to-br from-muted to-border rounded-full mx-auto animate-pulse-slow shadow-lg" />
-          <div className="h-10 w-56 bg-gradient-to-r from-muted to-border rounded-xl mx-auto animate-pulse-slow" />
-          <div className="h-5 w-72 bg-gradient-to-r from-muted to-border rounded-lg mx-auto animate-pulse-slow" />
-          <div className="h-4 w-40 bg-gradient-to-r from-muted to-border rounded-lg mx-auto animate-pulse-slow" />
+      {/* Mood Card Skeleton with Shimmer */}
+      <Card className="relative overflow-hidden p-10 space-y-6 flex flex-col items-center text-center">
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shimmer" />
+        <div className="relative h-20 w-20 bg-secondary rounded-full animate-pulse shadow-sm" />
+        <div className="relative space-y-3 w-full">
+          <div className="h-8 w-48 bg-secondary rounded-xl mx-auto animate-pulse" />
+          <div className="h-4 w-64 bg-secondary/60 rounded-lg mx-auto animate-pulse" />
         </div>
-      </div>
+      </Card>
 
       {/* Analyzing Text */}
       <div className="text-center space-y-6">
-        <p className="text-lg text-muted-foreground animate-pulse-slow">
-          Analyzing your emotional state...
-        </p>
-
-        {/* Music wave visualization */}
-        <div className="flex justify-center">
-          <MusicWaveVisualization />
+        <div className="inline-flex items-center gap-3 px-4 py-2 bg-secondary rounded-full">
+          <div className="w-2 h-2 bg-accent rounded-full animate-pulse" />
+          <p className="text-sm font-semibold text-primary">
+            Analyzing your emotional patterns...
+          </p>
         </div>
 
-        <div className="flex justify-center gap-1.5">
-          <div className="w-2 h-2 bg-accent rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-          <div className="w-2 h-2 bg-accent rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-          <div className="w-2 h-2 bg-accent rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+        {/* Processing indicators */}
+        <div className="flex justify-center gap-1.5 pt-2">
+          <div className="w-1.5 h-1.5 bg-accent rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+          <div className="w-1.5 h-1.5 bg-accent rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+          <div className="w-1.5 h-1.5 bg-accent rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
         </div>
       </div>
 
       {/* Track Grid Skeleton */}
-      <div className="space-y-5">
-        <div className="h-7 w-56 bg-gradient-to-r from-muted to-border rounded-lg animate-pulse-slow" />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {[1, 2, 3, 4].map((i) => (
-            <div
-              key={i}
-              className="relative overflow-hidden bg-secondary rounded-xl p-5 flex gap-4 shadow-sm"
-              style={{ animationDelay: `${i * 100}ms` }}
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer" style={{ animationDelay: `${i * 200}ms` }} />
-              <div className="relative h-16 w-16 bg-gradient-to-br from-muted to-border rounded-lg flex-shrink-0 animate-pulse-slow shadow" />
-              <div className="relative flex-1 space-y-3">
-                <div className="h-5 w-full bg-gradient-to-r from-muted to-border rounded animate-pulse-slow" />
-                <div className="h-4 w-3/4 bg-gradient-to-r from-muted to-border rounded animate-pulse-slow" />
-              </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {[1, 2, 3].map((i) => (
+          <Card
+            key={i}
+            className="group flex flex-col border-border/60 overflow-hidden"
+          >
+            <div className="relative aspect-square w-full bg-secondary animate-pulse" />
+            <div className="p-4 space-y-2">
+              <div className="h-5 w-full bg-secondary rounded animate-pulse" />
+              <div className="h-4 w-2/3 bg-secondary/60 rounded animate-pulse" />
             </div>
-          ))}
-        </div>
+          </Card>
+        ))}
       </div>
     </div>
   );

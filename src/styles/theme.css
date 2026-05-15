@@ -2,30 +2,30 @@
 
 :root {
   --font-size: 16px;
-  /* MoodTune Soft Minimalist Design System */
-  --background: #FDFDFD;
-  --foreground: #1F2937;
-  --card: #FDFDFD;
-  --card-foreground: #1F2937;
-  --popover: #FDFDFD;
-  --popover-foreground: #1F2937;
-  --primary: #1F2937;
-  --primary-foreground: #FDFDFD;
-  --secondary: #F7F7F7;
-  --secondary-foreground: #1F2937;
-  --muted: #F7F7F7;
-  --muted-foreground: #4B5563;
-  --accent: #4F46E5;
-  --accent-foreground: #FDFDFD;
+  /* Finto Soft Luxury Design System */
+  --background: #F8F8F6;
+  --foreground: #101110;
+  --card: #FFFFFF;
+  --card-foreground: #101110;
+  --popover: #FFFFFF;
+  --popover-foreground: #101110;
+  --primary: #101110;
+  --primary-foreground: #F8F8F6;
+  --secondary: #C4E4AC;
+  --secondary-foreground: #101110;
+  --muted: #EFEFEF;
+  --muted-foreground: #606060;
+  --accent: #59CF2A;
+  --accent-foreground: #FFFFFF;
   --destructive: #d4183d;
   --destructive-foreground: #ffffff;
-  --border: rgba(0, 0, 0, 0.08);
+  --border: rgba(0, 0, 0, 0.06);
   --input: transparent;
-  --input-background: #F7F7F7;
+  --input-background: #FFFFFF;
   --switch-background: #cbced4;
   --font-weight-medium: 500;
   --font-weight-normal: 400;
-  --ring: #4F46E5;
+  --ring: #59CF2A;
   /* Mood indicator colors */
   --mood-happy: #FBBF24;
   --mood-sad: #6366F1;
@@ -36,15 +36,15 @@
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
-  --radius: 0.75rem;
-  --sidebar: #F7F7F7;
-  --sidebar-foreground: #1F2937;
-  --sidebar-primary: #4F46E5;
-  --sidebar-primary-foreground: #FDFDFD;
-  --sidebar-accent: #F7F7F7;
-  --sidebar-accent-foreground: #1F2937;
-  --sidebar-border: rgba(0, 0, 0, 0.08);
-  --sidebar-ring: #4F46E5;
+  --radius: 1.5rem; /* 24px for large rounded corners */
+  --sidebar: #F8F8F6;
+  --sidebar-foreground: #101110;
+  --sidebar-primary: #59CF2A;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #EFEFEF;
+  --sidebar-accent-foreground: #101110;
+  --sidebar-border: rgba(0, 0, 0, 0.06);
+  --sidebar-ring: #59CF2A;
 }
 
 .dark {
@@ -127,11 +127,13 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    border-color: var(--border);
+    outline-color: color-mix(in srgb, var(--ring), transparent 50%);
   }
 
   body {
-    @apply bg-background text-foreground;
+    background-color: var(--background);
+    color: var(--foreground);
   }
 
   /**

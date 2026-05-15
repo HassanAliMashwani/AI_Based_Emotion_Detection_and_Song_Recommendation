@@ -6,13 +6,11 @@ import { SpotifyTrackGrid } from './components/SpotifyTrackGrid';
 import { SongFilters } from './components/SongFilters';
 import { MoodHistory } from './components/MoodHistory';
 import { LandingPage } from './components/LandingPage';
-import { AuthPage } from './components/AuthPage';
 import { UserProfile } from './components/UserProfile';
-import { ParticleBackground } from './components/ParticleBackground';
 import { WelcomeBanner } from './components/WelcomeBanner';
 import { MoodStats } from './components/MoodStats';
-import { LiveGlowBackground } from './components/LiveGlowBackground';
 import { AnimatedLogo } from './components/AnimatedLogo';
+import { LiveGlowBackground } from './components/LiveGlowBackground';
 import { ProfileSettings } from './components/ProfileSettings';
 import { Statistics } from './components/Statistics';
 import {
@@ -40,10 +38,15 @@ export interface HistoryEntry {
 }
 
 export default function App() {
-  const [user, setUser] = useState<User | null>(null);
-  const [isAuthChecked, setIsAuthChecked] = useState(false);
+  const [user, setUser] = useState<User | null>({
+    id: '1',
+    email: 'guest@moodtune.com',
+    name: 'Guest User',
+    avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=Guest&backgroundColor=b6e3f4',
+    joinedDate: Date.now(),
+  });
+  const [isAuthChecked, setIsAuthChecked] = useState(true);
   const [viewState, setViewState] = useState<ViewState>('landing');
-  const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
   const [showWelcome, setShowWelcome] = useState(true);
   const [state, setState] = useState<AppState>('input');
   const [thoughtText, setThoughtText] = useState('');
@@ -64,31 +67,22 @@ export default function App() {
     setIsAuthChecked(true);
 
     // If user is already logged in, skip landing page
-    if (existingUser) {
-      setViewState('app');
-    }
+    // if (existingUser) {
+    //   setViewState('app');
+    // }
   }, []);
 
-  const handleGetStarted = (mode: 'login' | 'signup') => {
-    setAuthMode(mode);
-    setViewState('auth');
-  };
-
-  const handleAuthSuccess = () => {
-    const loggedInUser = getCurrentUser();
-    setUser(loggedInUser);
+  const handleGetStarted = () => {
     setViewState('app');
   };
 
   const handleLogout = () => {
-    logoutUser();
-    setUser(null);
+    setViewState('landing');
     setState('input');
     setThoughtText('');
     setCurrentResult(null);
     setCurrentTracks([]);
     setCurrentEntryId(undefined);
-    setViewState('landing');
   };
 
   const handleAnalyze = async () => {
@@ -199,19 +193,30 @@ export default function App() {
         <LandingPage onGetStarted={handleGetStarted} />
       )}
 
-      {/* Show auth page */}
-      {isAuthChecked && viewState === 'auth' && (
-        <AuthPage onAuthSuccess={handleAuthSuccess} initialMode={authMode} />
-      )}
-
       {/* Show main app if logged in */}
       {isAuthChecked && viewState === 'app' && user && (
-        <div className="size-full flex bg-background relative">
-          {/* Live Glow Background that reacts to mood */}
-          <LiveGlowBackground emotion={currentResult?.mood || null} />
-
-          {/* Animated particle background */}
-          <ParticleBackground />
+        <div 
+          className={`size-full flex transition-colors duration-1000 relative ${
+            currentResult?.mood === 'Angry' ? 'bg-red-50/50' : 
+            currentResult?.mood === 'Sad' ? 'bg-blue-50/50' : 
+            currentResult?.mood === 'Happy' ? 'bg-amber-50/50' : 
+            'bg-background'
+          }`}
+        >
+          {/* Dynamic background glow */}
+          {currentResult?.mood && (
+            <div 
+              className="absolute inset-0 pointer-events-none opacity-30 blur-[120px] animate-pulse"
+              style={{ 
+                background: `radial-gradient(circle at 50% 50%, ${
+                  currentResult.mood === 'Angry' ? '#EF4444' : 
+                  currentResult.mood === 'Sad' ? '#6366F1' : 
+                  currentResult.mood === 'Happy' ? '#FBBF24' : 
+                  'transparent'
+                }, transparent)` 
+              }}
+            />
+          )}
 
           {/* Mood History Sidebar */}
           <MoodHistory
@@ -227,11 +232,11 @@ export default function App() {
               {/* Hamburger Menu Button */}
               <button
                 onClick={() => setIsSidebarOpen(true)}
-                className="fixed top-6 left-6 z-30 p-3 bg-card/90 backdrop-blur-xl border border-border rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 group"
+                className="fixed top-6 left-6 z-30 p-2.5 bg-white border border-border shadow-sm rounded-xl hover:shadow-md hover:bg-secondary transition-all group"
                 aria-label="Open menu"
               >
                 <svg
-                  className="w-6 h-6 text-primary group-hover:text-accent transition-colors"
+                  className="w-5 h-5 text-primary group-hover:text-accent transition-colors"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -255,28 +260,22 @@ export default function App() {
                 />
               </div>
 
-              {/* Header with user profile */}
-              <div className="flex items-start justify-center gap-8">
-                <div className="flex-1 text-center space-y-4 pb-6 relative max-w-4xl mx-auto">
-                  {/* Decorative gradient background */}
-                  <div className="absolute inset-0 -z-10">
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-b from-accent/5 via-purple-500/5 to-transparent blur-3xl rounded-full" />
+              {/* Header with MoodTune Branding */}
+              <div className="flex items-center justify-between pb-6 border-b border-border/50 animate-fade-in">
+                <button 
+                  onClick={handleLogout}
+                  className="flex items-center gap-4 hover:opacity-80 transition-opacity text-left"
+                >
+                  <AnimatedLogo size="md" showText={false} />
+                  <div>
+                    <h1 className="text-2xl font-bold text-primary tracking-tight">
+                      MoodTune
+                    </h1>
+                    <p className="text-xs font-medium text-muted-foreground uppercase tracking-widest mt-0.5">
+                      Dashboard
+                    </p>
                   </div>
-
-                  <div className="inline-flex flex-col items-center gap-4 animate-fade-in">
-                    <AnimatedLogo size="lg" showText={false} />
-                    <div>
-                      <h1 className="text-primary bg-gradient-to-r from-accent via-purple-600 to-accent bg-clip-text text-transparent animate-gradient-shift mb-2">
-                        MoodTune
-                      </h1>
-                      <div className="h-1 w-24 mx-auto bg-gradient-to-r from-transparent via-accent to-transparent rounded-full" />
-                    </div>
-                  </div>
-
-                  <p className="text-muted-foreground max-w-2xl mx-auto leading-relaxed animate-fade-in" style={{ animationDelay: '100ms' }}>
-                    Journal your thoughts, discover your emotional patterns, and find music that resonates with your mood
-                  </p>
-                </div>
+                </button>
               </div>
 
               {/* Main Content Area */}
@@ -298,7 +297,12 @@ export default function App() {
                   />
                 )}
 
-                {state === 'analyzing' && <SkeletonLoader />}
+                {state === 'analyzing' && (
+                  <div className="flex flex-col items-center">
+                    <LiveGlowBackground />
+                    <SkeletonLoader />
+                  </div>
+                )}
 
                 {state === 'results' && currentResult && (
                   <>
@@ -319,17 +323,15 @@ export default function App() {
                     <SpotifyTrackGrid tracks={currentTracks} emotion={currentResult.mood} />
 
                     {/* New Entry Button */}
-                    <div className="flex justify-center pt-6 animate-fade-in" style={{ animationDelay: '600ms' }}>
+                    <div className="flex justify-center pt-8 animate-fade-in" style={{ animationDelay: '600ms' }}>
                       <button
                         onClick={handleNewEntry}
-                        className="group relative px-10 py-4 bg-gradient-to-r from-secondary to-muted text-primary rounded-xl font-medium hover:shadow-xl transition-all duration-300 hover:scale-105 border border-border hover:border-accent/50 active:scale-95"
+                        className="px-8 py-3 bg-white border border-border shadow-sm text-primary rounded-xl font-bold hover:bg-secondary hover:border-border/80 transition-all duration-200 active:scale-95 flex items-center gap-2"
                       >
-                        <span className="flex items-center gap-2">
-                          <svg className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                          </svg>
-                          New Journal Entry
-                        </span>
+                        <svg className="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                        </svg>
+                        New Journal Entry
                       </button>
                     </div>
                   </>

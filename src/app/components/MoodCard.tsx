@@ -51,85 +51,72 @@ export function MoodCard({ emotion, confidence, description, subMood, fallbackUs
   const isLowConfidence = confidence < LOW_CONFIDENCE_THRESHOLD;
 
   return (
-    <div className="w-full max-w-3xl mx-auto animate-slide-up-fade space-y-3">
+    <div className="w-full max-w-3xl mx-auto animate-slide-up-fade space-y-4">
       {/* Fallback warning banner */}
       {fallbackUsed && (
-        <div className="flex items-center gap-2 px-4 py-2 bg-amber-50 border border-amber-200 rounded-xl text-amber-700 text-sm animate-fade-in">
-          <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div className="flex items-center gap-2 px-4 py-3 bg-amber-50 border border-amber-200 rounded-xl text-amber-700 text-sm animate-fade-in shadow-sm">
+          <svg className="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01M12 3a9 9 0 110 18A9 9 0 0112 3z" />
           </svg>
-          <span>Using keyword fallback — start the API server for higher accuracy</span>
+          <span className="font-medium">Using keyword fallback — start the API server for higher accuracy</span>
         </div>
       )}
 
       {/* Low confidence warning */}
       {isLowConfidence && (
-        <div className="flex items-center gap-2 px-4 py-2 bg-blue-50 border border-blue-200 rounded-xl text-blue-700 text-sm animate-fade-in">
-          <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div className="flex items-center gap-2 px-4 py-3 bg-secondary border border-border/80 rounded-xl text-muted-foreground text-sm animate-fade-in shadow-sm">
+          <svg className="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M12 3a9 9 0 110 18A9 9 0 0112 3z" />
           </svg>
-          <span>Low confidence — showing calm/neutral recommendations. Try adding more detail.</span>
+          <span className="font-medium">Low confidence — showing calm/neutral recommendations. Try adding more detail.</span>
         </div>
       )}
 
-      {/* Main card */}
-      <div className="relative">
-        <div className={`absolute -inset-4 bg-gradient-to-r ${config.gradient} rounded-3xl blur-3xl opacity-50 ${config.shadow}`} />
-        <div className={`relative bg-gradient-to-br ${config.gradient} backdrop-blur-sm rounded-2xl p-10 space-y-6 shadow-2xl ${config.shadow} ring-1 ${config.ring} border border-white/20`}>
+      {/* Main Insight Card */}
+      <div className="bg-card border border-border shadow-sm rounded-2xl p-8 md:p-10 flex flex-col md:flex-row items-center gap-8 relative overflow-hidden">
+        
+        {/* Subtle background glow based on mood */}
+        <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full blur-[80px] opacity-20 pointer-events-none" style={{ backgroundColor: config.color }} />
 
-          {/* Avatar */}
-          <div className="relative">
-            <div className="absolute inset-0 blur-3xl opacity-60 animate-pulse-glow"
-              style={{ background: `radial-gradient(circle, ${config.color}60 0%, transparent 70%)` }} />
-            <div className="relative flex justify-center scale-125 my-4">
-              <MoodAvatar mood={emotion as 'Happy' | 'Sad' | 'Angry' | 'Neutral'} />
-            </div>
-          </div>
+        {/* Left side: Avatar Character */}
+        <div className="flex-shrink-0">
+          <MoodAvatar mood={emotion as any} />
+        </div>
 
-          {/* Mood text */}
-          <div className="space-y-3">
-            <h2 className="text-center text-primary leading-tight">
-              You're feeling{' '}
-              <span className="relative font-bold animate-gradient-text" style={{
-                background: `linear-gradient(135deg, ${config.color}, ${config.color}CC)`,
-                WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
-              }}>
+        {/* Right side: Insights */}
+        <div className="flex-1 space-y-4 text-center md:text-left z-10">
+          <div className="flex flex-col md:flex-row md:items-center gap-3">
+            <h2 className="text-2xl font-bold text-primary tracking-tight">
+              Emotion Insight
+            </h2>
+            <div className="flex items-center justify-center md:justify-start gap-2">
+              <span className="px-3 py-1 text-sm font-medium rounded-full" style={{ backgroundColor: `${config.color}15`, color: config.color }}>
                 {emotion}
               </span>
-            </h2>
-
-            {/* SubMood badge */}
-            {subMood && SUBMOOD_LABELS[subMood] && (
-              <div className="flex justify-center">
-                <span className="px-3 py-1 text-sm rounded-full border border-current/20 bg-white/40 backdrop-blur text-primary/70 font-medium">
+              {subMood && SUBMOOD_LABELS[subMood] && (
+                <span className="px-3 py-1 text-sm font-medium rounded-full bg-secondary text-muted-foreground border border-border/50">
                   {SUBMOOD_LABELS[subMood]}
                 </span>
-              </div>
-            )}
-
-            <p className="text-center text-muted-foreground max-w-lg mx-auto leading-relaxed">
-              {description}
-            </p>
-          </div>
-
-          {/* Confidence meter */}
-          <div className="space-y-3 pt-2">
-            <div className="flex items-center justify-center gap-3">
-              <span className="text-sm text-muted-foreground">Confidence:</span>
-              <span className="font-semibold" style={{ color: config.color }}>
-                {Math.round(confidence * 100)}%
-              </span>
-              {isLowConfidence && (
-                <span className="text-xs text-blue-500 font-medium">(Low)</span>
               )}
             </div>
-            <div className="relative w-full max-w-xs mx-auto h-2 bg-secondary/50 rounded-full overflow-hidden backdrop-blur">
-              <div className="absolute inset-y-0 left-0 rounded-full animate-progress-fill shadow-lg"
-                style={{
-                  width: `${confidence * 100}%`,
-                  background: `linear-gradient(90deg, ${config.color}, ${config.color}DD)`,
-                  boxShadow: `0 0 12px ${config.color}80`,
-                }} />
+          </div>
+
+          <p className="text-muted-foreground leading-relaxed">
+            {description}
+          </p>
+
+          <div className="pt-2">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm font-medium text-primary">Analysis Confidence</span>
+              <span className="text-sm font-bold" style={{ color: config.color }}>
+                {Math.round(confidence * 100)}%
+              </span>
+            </div>
+            <div className="w-full h-2 bg-secondary rounded-full overflow-hidden">
+              <div 
+                className="h-full rounded-full transition-all duration-1000 ease-out"
+                style={{ width: `${confidence * 100}%`, backgroundColor: config.color }}
+              />
             </div>
           </div>
         </div>

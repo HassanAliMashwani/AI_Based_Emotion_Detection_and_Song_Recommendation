@@ -23,7 +23,7 @@ export function LiveGlowBackground({ emotion }: LiveGlowBackgroundProps) {
       position: 'bottom-left',
     },
     angry: {
-      gradient: 'from-red-400/20 via-rose-400/15 to-pink-400/10',
+      gradient: 'from-red-400/20 via-rose-400/15 to-cyan-400/10',
       position: 'top-left',
     },
     neutral: {
@@ -53,7 +53,7 @@ export function LiveGlowBackground({ emotion }: LiveGlowBackgroundProps) {
 
       {/* Secondary accent glows */}
       <div
-        className="absolute top-1/4 right-1/3 w-96 h-96 bg-gradient-radial from-purple-400/15 to-transparent rounded-full blur-3xl animate-float-slow"
+        className="absolute top-1/4 right-1/3 w-96 h-96 bg-gradient-radial from-blue-400/15 to-transparent rounded-full blur-3xl animate-float-slow"
         style={{ animationDelay: '1s' }}
       />
       <div
