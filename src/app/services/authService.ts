@@ -91,11 +91,18 @@ export function getCurrentUser(): User | null {
     try {
       return JSON.parse(userJson);
     } catch {
-      return null;
+      // Fallback below
     }
   }
 
-  return null;
+  // Always return a guest user if no session exists (for auth-free experience)
+  return {
+    id: 'guest',
+    email: 'guest@tunelytics.com',
+    name: 'Guest User',
+    avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=Guest&backgroundColor=b6e3f4',
+    joinedDate: Date.now(),
+  };
 }
 
 export function logoutUser(): void {

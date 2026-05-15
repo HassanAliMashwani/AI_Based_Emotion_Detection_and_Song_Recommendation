@@ -176,7 +176,7 @@ export default function App() {
     <>
       {/* Show loading while checking auth */}
       {!isAuthChecked && (
-        <div className="size-full flex items-center justify-center bg-background">
+        <div className="min-h-screen w-full flex items-center justify-center bg-background">
           <div className="text-center space-y-6">
             <AnimatedLogo size="xl" showText={false} />
             <div className="flex justify-center gap-1.5">
@@ -196,7 +196,7 @@ export default function App() {
       {/* Show main app if logged in */}
       {isAuthChecked && viewState === 'app' && user && (
         <div 
-          className={`size-full flex transition-colors duration-1000 relative ${
+          className={`min-h-screen w-full flex transition-colors duration-1000 relative ${
             currentResult?.mood === 'Angry' ? 'bg-red-50/50' : 
             currentResult?.mood === 'Sad' ? 'bg-blue-50/50' : 
             currentResult?.mood === 'Happy' ? 'bg-amber-50/50' : 
