@@ -3,6 +3,7 @@ import { ThoughtInput } from './components/ThoughtInput';
 import { SkeletonLoader } from './components/SkeletonLoader';
 import { MoodCard } from './components/MoodCard';
 import { SpotifyTrackGrid } from './components/SpotifyTrackGrid';
+import { SongFilters } from './components/SongFilters';
 import { MoodHistory } from './components/MoodHistory';
 import { LandingPage } from './components/LandingPage';
 import { AuthPage } from './components/AuthPage';
@@ -17,15 +18,18 @@ import { Statistics } from './components/Statistics';
 import {
   analyzeEmotion,
   getSpotifyRecommendations,
+  getAvailableGenres,
   EmotionAnalysisResult,
   SpotifyTrack,
+  type LanguageFilter,
+  type GenreFilter,
 } from './services/mockApi';
 import { getCurrentUser, logoutUser, User } from './services/authService';
 
 type AppState = 'input' | 'analyzing' | 'results';
 type ViewState = 'landing' | 'auth' | 'app';
 
-interface HistoryEntry {
+export interface HistoryEntry {
   id: string;
   emotion: string;
   timestamp: number;
@@ -48,6 +52,9 @@ export default function App() {
   const [currentEntryId, setCurrentEntryId] = useState<string | undefined>();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showProfileSettings, setShowProfileSettings] = useState(false);
+  const [languageFilter, setLanguageFilter] = useState<LanguageFilter>('both');
+  const [genreFilter, setGenreFilter] = useState<GenreFilter>('all');
+  const [availableGenres, setAvailableGenres] = useState<string[]>([]);
   const [showStatistics, setShowStatistics] = useState(false);
 
   // Check for existing session on mount
@@ -93,13 +100,17 @@ export default function App() {
       // Analyze emotion
       const result = await analyzeEmotion(thoughtText);
 
-      // Get Spotify recommendations
-      const tracks = await getSpotifyRecommendations(result.emotion);
+      // Compute available genres for the detected mood
+      const genres = getAvailableGenres(result.mood, languageFilter);
+      setAvailableGenres(genres);
+
+      // Get recommendations with current filters
+      const tracks = await getSpotifyRecommendations(result.mood, languageFilter, genreFilter);
 
       // Create history entry
       const entry: HistoryEntry = {
         id: Date.now().toString(),
-        emotion: result.emotion,
+        emotion: result.mood,
         timestamp: Date.now(),
         preview: thoughtText.substring(0, 50) + (thoughtText.length > 50 ? '...' : ''),
         text: thoughtText,
@@ -118,8 +129,6 @@ export default function App() {
       }
 
       localStorage.setItem('moodtune_history', JSON.stringify(history));
-
-      // Trigger storage event for same-tab updates
       window.dispatchEvent(new Event('moodtune_history_updated'));
 
       setCurrentResult(result);
@@ -129,6 +138,18 @@ export default function App() {
     } catch (error) {
       console.error('Analysis failed:', error);
       setState('input');
+    }
+  };
+
+  // Re-fetch songs when filters change (results state only)
+  const handleFiltersChange = async (lang: LanguageFilter, genre: GenreFilter) => {
+    setLanguageFilter(lang);
+    setGenreFilter(genre);
+    if (state === 'results' && currentResult) {
+      const genres = getAvailableGenres(currentResult.mood, lang);
+      setAvailableGenres(genres);
+      const tracks = await getSpotifyRecommendations(currentResult.mood, lang, genre);
+      setCurrentTracks(tracks);
     }
   };
 
@@ -187,7 +208,7 @@ export default function App() {
       {isAuthChecked && viewState === 'app' && user && (
         <div className="size-full flex bg-background relative">
           {/* Live Glow Background that reacts to mood */}
-          <LiveGlowBackground emotion={currentResult?.emotion || null} />
+          <LiveGlowBackground emotion={currentResult?.mood || null} />
 
           {/* Animated particle background */}
           <ParticleBackground />
@@ -282,11 +303,20 @@ export default function App() {
                 {state === 'results' && currentResult && (
                   <>
                     <MoodCard
-                      emotion={currentResult.emotion}
+                      emotion={currentResult.mood}
                       confidence={currentResult.confidence}
                       description={currentResult.description}
+                      subMood={(currentResult as any).subMood}
+                      fallbackUsed={(currentResult as any).fallbackUsed}
                     />
-                    <SpotifyTrackGrid tracks={currentTracks} emotion={currentResult.emotion} />
+                    <SongFilters
+                      language={languageFilter}
+                      genre={genreFilter}
+                      availableGenres={availableGenres}
+                      onLanguageChange={(lang) => handleFiltersChange(lang, genreFilter)}
+                      onGenreChange={(genre) => handleFiltersChange(languageFilter, genre)}
+                    />
+                    <SpotifyTrackGrid tracks={currentTracks} emotion={currentResult.mood} />
 
                     {/* New Entry Button */}
                     <div className="flex justify-center pt-6 animate-fade-in" style={{ animationDelay: '600ms' }}>

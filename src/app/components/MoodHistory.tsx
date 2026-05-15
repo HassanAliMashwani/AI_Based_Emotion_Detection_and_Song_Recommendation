@@ -1,11 +1,6 @@
 import { useEffect, useState } from 'react';
 
-interface HistoryEntry {
-  id: string;
-  emotion: string;
-  timestamp: number;
-  preview: string;
-}
+import type { HistoryEntry } from '../App';
 
 interface MoodHistoryProps {
   onSelectEntry: (entry: HistoryEntry) => void;
