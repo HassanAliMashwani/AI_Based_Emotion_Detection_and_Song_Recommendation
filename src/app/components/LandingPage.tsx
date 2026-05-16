@@ -20,16 +20,18 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
         
         {/* Navbar */}
-        <header className="flex items-center justify-between py-6 animate-fade-in">
-          <AnimatedLogo size="md" />
+        <header className="flex items-center justify-between py-4 sm:py-6 animate-fade-in gap-2 sm:gap-4">
+          <div className="transform scale-90 sm:scale-100 origin-left flex-shrink-0">
+            <AnimatedLogo size="md" />
+          </div>
 
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
             <a href="#" className="hover:text-primary transition-colors">Features</a>
             <a href="#" className="hover:text-primary transition-colors">How it Works</a>
           </div>
 
-          <div className="flex items-center gap-4">
-            <Button variant="primary" onClick={() => onGetStarted()}>
+          <div className="flex items-center">
+            <Button variant="primary" onClick={() => onGetStarted()} className="whitespace-nowrap px-4 py-2 sm:px-6 sm:py-3 text-sm sm:text-base">
               Check My Mood
             </Button>
           </div>
@@ -124,10 +126,10 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
             </Card>
 
             {/* Floating Element 1 */}
-            <Card className="absolute -top-6 -left-12 z-20 w-48 p-4 shadow-xl border border-border/50 animate-float">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center text-sm">😊</div>
-                <p className="font-semibold text-primary text-sm">Happy</p>
+            <Card className="absolute -top-4 -left-2 sm:-top-6 sm:-left-12 z-20 w-36 sm:w-48 p-2.5 sm:p-4 shadow-xl border border-border/50 animate-float">
+              <div className="flex items-center gap-2 sm:gap-3 mb-2">
+                <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-yellow-100 flex items-center justify-center text-xs sm:text-sm">😊</div>
+                <p className="font-semibold text-primary text-xs sm:text-sm">Happy</p>
               </div>
               <div className="w-full h-1.5 bg-secondary rounded-full overflow-hidden">
                 <div className="w-3/4 h-full bg-accent rounded-full" />
@@ -135,10 +137,10 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
             </Card>
 
             {/* Floating Element 2 */}
-            <Card className="absolute -bottom-8 -right-8 z-20 w-56 p-5 shadow-2xl border border-border/50 animate-float" style={{ animationDelay: '1s' }}>
-              <p className="text-xs text-muted-foreground mb-1">Recent Analysis</p>
-              <p className="text-sm font-medium text-primary mb-3">"Feeling great about the launch today!"</p>
-              <Badge variant="outline" className="text-xs">Positive Sentiment</Badge>
+            <Card className="absolute -bottom-6 -right-2 sm:-bottom-8 sm:-right-8 z-20 w-44 sm:w-56 p-3 sm:p-5 shadow-2xl border border-border/50 animate-float" style={{ animationDelay: '1s' }}>
+              <p className="text-[10px] sm:text-xs text-muted-foreground mb-1">Recent Analysis</p>
+              <p className="text-xs sm:text-sm font-medium text-primary mb-2 sm:mb-3">"Feeling great about the launch today!"</p>
+              <Badge variant="outline" className="text-[10px] sm:text-xs px-2 py-0.5">Positive Sentiment</Badge>
             </Card>
           </div>
         </section>

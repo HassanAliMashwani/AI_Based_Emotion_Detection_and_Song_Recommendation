@@ -228,30 +228,49 @@ export default function App() {
 
           {/* Main Content */}
           <div className="flex-1 overflow-y-auto">
-            <div className="max-w-5xl mx-auto px-8 py-8 space-y-10">
-              {/* Hamburger Menu Button */}
-              <button
-                onClick={() => setIsSidebarOpen(true)}
-                className="fixed top-6 left-6 z-30 p-2.5 bg-white border border-border shadow-sm rounded-xl hover:shadow-md hover:bg-secondary transition-all group"
-                aria-label="Open menu"
-              >
-                <svg
-                  className="w-5 h-5 text-primary group-hover:text-accent transition-colors"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
+            {/* Header with MoodTune Branding & Controls */}
+            <div className="max-w-7xl mx-auto px-6 sm:px-8 pt-6 sm:pt-8 pb-6 flex items-center justify-between border-b border-border/50 animate-fade-in relative z-30">
+              <div className="flex items-center gap-2 sm:gap-4">
+                {/* Hamburger Menu Button */}
+                <button
+                  onClick={() => setIsSidebarOpen(true)}
+                  className="p-2 sm:p-2.5 bg-white border border-border shadow-sm rounded-xl hover:shadow-md hover:bg-secondary transition-all group"
+                  aria-label="Open menu"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                </svg>
-              </button>
+                  <svg
+                    className="w-5 h-5 text-primary group-hover:text-accent transition-colors"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M4 6h16M4 12h16M4 18h16"
+                    />
+                  </svg>
+                </button>
+                <button 
+                  onClick={handleLogout}
+                  className="flex items-center gap-2 sm:gap-4 hover:opacity-80 transition-opacity text-left"
+                >
+                  <div className="transform scale-90 sm:scale-100 origin-left">
+                    <AnimatedLogo size="md" showText={false} />
+                  </div>
+                  <div className="block">
+                    <h1 className="text-lg sm:text-2xl font-bold text-primary tracking-tight">
+                      Tunelytics
+                    </h1>
+                    <p className="hidden sm:block text-[10px] sm:text-xs font-medium text-muted-foreground uppercase tracking-widest mt-0.5">
+                      Dashboard
+                    </p>
+                  </div>
+                </button>
+              </div>
 
-              {/* User Profile - Fixed to top right */}
-              <div className="fixed top-6 right-6 z-30 animate-fade-in" style={{ animationDelay: '200ms' }}>
+              {/* User Profile */}
+              <div className="flex-shrink-0">
                 <UserProfile
                   user={user}
                   onLogout={handleLogout}
@@ -259,25 +278,9 @@ export default function App() {
                   onOpenStatistics={() => setShowStatistics(true)}
                 />
               </div>
+            </div>
 
-              {/* Header with MoodTune Branding */}
-              <div className="flex items-center justify-between pb-6 border-b border-border/50 animate-fade-in">
-                <button 
-                  onClick={handleLogout}
-                  className="flex items-center gap-4 hover:opacity-80 transition-opacity text-left"
-                >
-                  <AnimatedLogo size="md" showText={false} />
-                  <div>
-                    <h1 className="text-2xl font-bold text-primary tracking-tight">
-                      Tunelytics
-                    </h1>
-                    <p className="text-xs font-medium text-muted-foreground uppercase tracking-widest mt-0.5">
-                      Dashboard
-                    </p>
-                  </div>
-                </button>
-              </div>
-
+            <div className="max-w-5xl mx-auto px-6 sm:px-8 py-8 space-y-10 w-full">
               {/* Main Content Area */}
               <div className="space-y-10">
                 {/* Welcome Banner */}
