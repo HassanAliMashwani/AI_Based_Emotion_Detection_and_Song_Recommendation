@@ -1,1 +1,17 @@
-node_modules
+node_modules/
+
+# Python cache and bytecode
+__pycache__/
+*.pyc
+*.pyo
+
+# Testing cache
+.pytest_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Machine learning artifacts and model weights
+ml/artifacts/*.pkl
